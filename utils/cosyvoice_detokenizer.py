@@ -83,9 +83,9 @@ def token2wav(cosyvoice3_model, tokens, embedding=None, token_hop_len=25 * 30, p
     speech = torch.concat(speech_list, dim=1)
     return  speech
 
-def get_audio_detokenizer(token_hop_len=25 * 30):
+def get_audio_detokenizer(cosyvoice_model_path='pretrained_models/Fun-CosyVoice3-0.5B-2512', token_hop_len=25 * 30):
     logger.info(f"cosyvoice cuda: {torch.cuda.is_available()}")
-    cosyvoice3 = CosyVoice3('pretrained_models/Fun-CosyVoice3-0.5B-2512',
+    cosyvoice3 = CosyVoice3(cosyvoice_model_path,
                             load_trt=False, load_vllm=False, fp16=False)
     cosyvoice3.model.flow.decoder.estimator.static_chunk_size = 2 * token_hop_len
     logger.info(f"cosyvoice loaded")
